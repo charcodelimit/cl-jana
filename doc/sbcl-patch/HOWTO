@@ -1,0 +1,14 @@
+Advanced Users Only!
+====================
+
+The way SBCL prints floating-point numbers is not fully CLTL2 conformant.
+Apply the patch in this directory to SBCL, and rebuild it from scratch.
+
+This will fix the floating point problem and makes jana work reliably
+with SBCL.
+
+---
+
+Known to work with:
+
+* SBCL 1.0.32

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC
+    "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN"
+    "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns:svg='http://www.w3.org/2000/svg' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+<head><meta content='application/xhtml+xml;charset=utf-8' http-equiv='Content-type' /><title></title><link href='style.css' rel='stylesheet' type='text/css' />
+</head>
+<body>
+<h1 id='clospath'>CLOS-PATH</h1>
+
+<h2 id='design'>Design</h2>
+
+<p>The CLOS-PATH system consists of the following parts:</p>
+
+<ul>
+<li>reader macros to declare queries</li>
+
+<li>a query lexer</li>
+
+<li>a query parser</li>
+
+<li>the query compiler</li>
+
+<li>query primitives</li>
+</ul>
+
+<h1 id='the_reader_macros'>The Reader Macros</h1>
+
+<p>The reader macros are the user-interface of the CLOS-PATH system. Two type of queries are supported: existential-queries and element-queries (in the future support may be added for traversal queries). Existential-queries return T or NIL depending on whether elements would be selected by a query expression. (There is some room for optimization here, as the query can be terminated, as soon as one element has been found.) Element-queries return all elements that are selected by a query expression.</p>
+
+<h1 id='terminology'>Terminology</h1>
+
+<h2 id='elements'>elements</h2>
+
+<p>Example:</p>
+
+<pre><code>    #$object/attr1</code></pre>
+
+<p>The elements designator <code>/&lt;slot-name&gt;</code> is used to designate a slot of an object, from which elements should be retrieved.</p>
+
+<h2 id='descendants'>descendants</h2>
+
+<p>Example:</p>
+
+<pre><code>    #$object//attr1</code></pre>
+
+<p>The descendants designator <code>//&lt;slot-name&gt;</code> is used to designate a slot in an object or one of its descendants. A breadth-first search is used to locate the slot with name <code>&lt;slot-name&gt;</code> from which the elements should be retrieved. (How about termination, etc ..)</p>
+
+<h2 id='predicate_block'>predicate block</h2>
+
+<p>Example:</p>
+
+<pre><code>     #$object/attr1[@type=some-class]</code></pre>
+
+<p>A predicate used to select elements from a slot. Predicates are delimited by square brackets.</p>
+
+<h2 id='symbolicexpression_block'>symbolic-expression block</h2>
+
+<p>Example:</p>
+
+<pre><code>     #${(car lst)}/attr1 
+      =&gt; (slot-value (car lst) &#39;attr1)</code></pre>
+
+<p>A symbolic-expression delimited by curly brackets that is evaluated to obtain a value that is used in the query expression.</p>
+
+<h2 id='the_parser'>The Parser</h2>
+
+<p>The AST produced by the parser has the following form:</p>
+
+<pre><code>    (path (&lt;root-node&gt; (&lt;ast-nodes&gt;)))</code></pre>
+
+<p>The <em>root-node</em> of the AST is the symbol of the object that is queried, or the symbolic-expression block that calculates this object.</p>
+
+<p><em>AST-Nodes</em> are represented by lists. They have the form:</p>
+
+<pre><code> (&lt;token-type&gt; &lt;attribute&gt; ...)</code></pre>
+
+<p><em>Attributes</em> can be other <em>AST-Nodes</em>, which allows arbitrary (linear) nesting of nodes, and thus the creation of a tree.</p>
+
+<h2 id='known_limitations'>Known Limitations</h2>
+
+<p>Expressions of the form</p>
+
+<pre><code>        (setf #$object/attr1/attr2 value)</code></pre>
+
+<p>will not work as expected, i.e. set the value of the slot <code>attr2</code>.</p>
+
+<p>The reason for this behavior is that the reader-macro <code>#$</code> creates a path expression that expands into a select program.</p>
+
+<p>However, it should be possible to write a custom <code>setf</code>-function that generates the correct path expression:</p>
+
+<pre><code> (setf #$object/attr1/attr2 value)
+  =&gt; #$object/attr1[{(setf (slot-value @value &#39;attr2) value)}]</code></pre>
+
+<h2 id='path_expressions'>Path Expressions</h2>
+
+<h1 id='primitives'>Primitives</h1>
+
+<h2 id='symbolic_expression_block'>Symbolic Expression Block</h2>
+
+<p>Syntax:</p>
+
+<pre><code>    symbolic-expression-block ::= {&lt;symbolic-expression&gt;}</code></pre>
+
+<p>Symbolic expression blocks contain symbolic-expressions, which are evaluated by common-lisp in the lexical scope of the <em>compiled query</em>.</p>
+
+<pre><code>  [[{&lt;symbolic-expression&gt;}]] -&gt; (eval &lt;symbolic-expression&gt;)</code></pre>
+
+<h2 id='queried_object'>Queried Object</h2>
+
+<p>Syntax:</p>
+
+<pre><code>    queried-object ::=  ( &lt;symbol&gt; | &lt;symbolic-expression-block&gt; )</code></pre>
+
+<p>A path expression starts with a <em>symbol</em> containing an object, or a <em>symbolic-expression-block</em> that when evaluated returns an object. The conditions that must hold in evaluating symbols and symbolic expression blocks are more specifically:</p>
+
+<pre><code> [[symbol]] -&gt; (or (typep symbol &#39;standard-object) (typep symbol &#39;sequence))
+ [[&lt;symbolic-expression-block&gt;]] -&gt; (or (typep &lt;symbolic-expression-block&gt; &#39;standard-object) (typep &lt;symbolic-expression-block&gt; &#39;sequence))</code></pre>
+
+<h2 id='predicate_block'>Predicate Block</h2>
+
+<p>Syntax:</p>
+
+<pre><code>  predicate-block ::= [&lt;predicate-expression&gt;]</code></pre>
+
+<p>Predicate blocks are used to select elements in path expressions.</p>
+
+<h2 id='predicate_expressions'>Predicate Expressions</h2>
+
+<p>Syntax:</p>
+
+<pre><code>    predicate-expression ::= ( &lt;keyword&gt; | &lt;symbolic-expression-block&gt; | ^( &lt;keyword&gt; | &lt;symbolic-expression-block&gt; ) )</code></pre>
+
+<p>When the predicate-expression is a keyword, the following rules apply:</p>
+
+<pre><code> * if the keyword is of the form `:symbol-name`, then the *predicate-expression*
+   matches the queried-object, when the slot is defined and bound
+ * if the keyword is of the form `:number`, then the *predicate-expression*
+   matches the nth element when the queried object is a sequence, otherwise
+   the queried object is not matched</code></pre>
+
+<p>When the predicate-expression is a symbolic-expression block, then the value of evaluating the symbolic-expression block is interpreted as <em>generalized-boolean</em>. In case that evaluating symbolic-expression block returns a non-NIL value, the queried-object is matched, otherwise not.</p>
+
+<p>In all other cases, where the predicate-expression is neither a keyword nor a symbolic-expression block, the queried object is compared to the value obtained by evaluating the predicate expression. If the comparison was successful, then the queried-object is matched.</p>
+
+<h2 id='simple_query'>Simple Query</h2>
+
+<p>Syntax:</p>
+
+<pre><code>    simple-query ::= &lt;queried-object&gt; ( &lt;predicate-block&gt; | &lt;symbolic-expression&gt; )?</code></pre>
+
+<p>A simple query returns either the queried-object, a simple-vector containing the queried-object, or an empty simple-vector. When no predicate-block is used, then the query always returns a simple-vector containing the queried-object.</p>
+
+<p>If a predicate-block is used that uses a predicate-expression of form <code>:number</code>, then the queried-object is treated like a sequence. That is, if the queried object is no sequence, it is treated as a sequence of one element containing this object. If the index designated by the predicate-expression is greater than the length of the sequence denoted by queried-object, then an empty vector is returned.</p>
+
+<p>If any of the other types of predicate-blocks matches, then a vector containing the matched elements is returned.</p>
+
+<h2 id='element_selection'>Element Selection</h2>
+
+<p>A path-query expression returns usually a <em>vector</em> of elements. The only exception from this rule is <em>element-selection</em>. Element selection is accomplished by a predicate-block containing a <em>fixnum</em> index as predicate-expression.</p>
+
+<p>Example:</p>
+
+<pre><code>    #$object/attr1[0]</code></pre>
+
+<p>The fixnum in the square brackets denotes the index in the <em>result-vector</em> of the query, which returns a single object.</p>
+
+<h1 id='examples'>Examples</h1>
+
+<pre><code>    ? (defclass test-class () 
+        ((attr1 :initarg :attr1) 
+         (attr2 :initarg :attr2)))
+    #&lt;STANDARD-CLASS TEST-CLASS&gt;             
+    
+    ? (defvar object 
+              (make-instance &#39;test-class 
+                             :attr1 &quot;A&quot; 
+                             :attr2 (make-instance &#39;test-class 
+                                                   :attr1 &quot;A&quot; 
+                                                   :attr2 #(&quot;B&quot; &quot;C&quot;))))
+    OBJECT
+
+    ? #$object/attr1[:0] 
+    &quot;A&quot;
+
+    ? #$object/attr1[1=1]
+    #(&quot;A&quot;)
+
+    ? #$object/attr1[0=1]
+    #()
+
+    ? #$object/attr2[:attr1]
+    #(#&lt;TEST-CLASS #x300041BCB46D&gt;)
+
+    ? #$object/attr2[:attr3]
+    #()
+
+    ? #$object/attr2[:attr1=&quot;A&quot;]
+    #(#&lt;TEST-CLASS #x300041BCB46D&gt;)
+
+    ? #$object/attr2[:attr1=&quot;B&quot;]
+    #()
+
+    ? #$object/attr2/attr1[{@value}=&quot;A&quot;]
+    #(&quot;A&quot;)</code></pre>
+</body></html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><title>Eager Future</title>
+
+
+
+  
+  <link rel="stylesheet" type="text/css" href="Eager%20Future_files/style.css">
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"></head><body>
+ <div class="header">
+   <h1>Eager Future</h1>
+ </div>
+
+<h2>Introduction</h2>
+
+    <p>Eager Future is a Common Lisp library for concurrent
+    programming with composable, eager futures
+    (<a href="http://lambda-the-ultimate.org/node/3221">look here</a>
+    for a thorough discussion of what exactly that means).</p>
+
+    <p>Eager Future is a rewrite
+    of <a href="http://marijn.haverbeke.nl/">Marijn
+    Haverbeke</a>'s <a href="http://marijn.haverbeke.nl/pcall/">PCall</a>
+    library. The main differences between Eager Future
+    and <a href="http://marijn.haverbeke.nl/pcall/">PCall</a> are:
+
+      </p><ul>
+        <li><b>Eagerness:</b> Futures start computing as soon as they
+        are created. This permits future composition to be used for
+        soft real-time tasks, at the expense of unbounded thread pool
+        size (Eager Future comes with a reclaiming thread pool with a
+        soft size limit).</li>
+
+        <li><b>Condition handling protocol:</b> Any condition raised
+        during the execution of a future is wrapped in a condition of
+        class <code>EXECUTION-ERROR</code>, which is raised when the
+        future is asked to <code>YIELD</code>.</li>
+
+        <li><b>Thread pool management:</b> There are no thread pool
+        management tools provided with Eager Future. If programming
+        multithreaded software by hand is akin to manual memory
+        management (it is), then constructs like
+        <a href="http://marijn.haverbeke.nl/pcall/">PCall</a>'s <code>WITH-THREAD-POOL</code>
+        are like stack-based allocation (they are). The Eager Future
+        thread pool is like a garbage collector. In the eagerly
+        awaited future (when OS thread overhead decreases), Eager
+        Future will stop using thread pools entirely.</li>
+
+        <li><b>Thread pool implementation:</b> Eager Future thread
+        pools are based around
+        the <a href="http://www.kircher-schwanninger.de/michael/publications/lf.pdf">Leader/Follower</a>
+        pattern, making them somewhat more efficient than those in
+        PCall, which are based on
+        the <a href="http://chuck.cranor.org/p/PLoP-95.ps.gz">Half-Sync/Half-Async</a>
+        pattern.</li>
+      </ul>
+    
+
+    <p>Eager Future is built on the assumption that multi-core chips
+      will provide a friendly habitat for speculative execution and
+      many live threads.</p>
+    
+<h2>Download</h2>
+
+<p>The latest version of Eager Future is 0.2, and can be
+downloaded <a href="http://common-lisp.net/project/eager-future/release/eager-future-latest.tgz">here</a>. Older
+versions can be downloaded from the <a href="http://common-lisp.net/project/eager-future/release/">release
+directory</a>.</p>
+
+<p>Eager Future is available
+via <a href="http://common-lisp.net/project/asdf-install/">ASDF-Install</a>: <code>(asdf-install:install
+:eager-future)</code></p>
+
+<h2>Repository</h2>
+
+<p>The Eager Future repository can be checked out with <a href="http://darcs.net/">darcs</a>:</p>
+
+<code>darcs get http://common-lisp.net/project/eager-future/repository/eager-future/</code>
+
+<h2>Support and mailing list</h2>
+
+<p>Questions should be directed to
+the <a href="http://common-lisp.net/cgi-bin/mailman/listinfo/eager-future-devel">eager-future-devel</a>
+mailing list.</p>
+
+<h2>Documentation</h2>
+
+<dl>
+  <lh></lh><h3>API</h3>
+  <dt>function <code>PCALL</code> <i>function</i>
+      <br>&#8594; future
+  </dt>
+
+    <dd>Begins asynchronous execution the given function of no
+    arguments, returning an object of type <code>FUTURE</code> that
+    can later be used to retrieve the result of executing the
+    function. Note that the execution of the function takes places in
+    an
+    unspecified <a href="http://www.ai.mit.edu/projects/iiip/doc/CommonLISP/HyperSpec/Body/sec_3-1-1-2.html">dynamic
+    environment</a>.</dd>
+
+    <br>
+
+    <dt>macro <code>PEXEC</code> <i>(&amp;body body)</i>
+      <br>&#8594; future
+    </dt>
+
+    <dd>A shorthand for <code>(pcall (lambda () ...))</code>.</dd>
+
+    <br>
+    
+    <dt>macro <code>PLET</code> <i>((bindings) &amp;body body)</i>
+    </dt>
+
+    <dd>Like <code>LET</code>, but all bindings are evaluated
+    asynchronously.</dd>
+
+    <br>
+
+    <dt>function <code>YIELD</code> <i>future</i>
+      <br>&#8594; values
+    </dt>
+
+    <dd>Given an object of type <code>FUTURE</code>, returns the
+    value(s) that resulted from executing the function associated with
+    that future. If execution has not yet finished, blocks until it
+    has. If a condition was raised during
+    execution, <code>YIELD</code> will raise a condition of
+    type <code>EXECUTION-ERROR</code> that wraps the original
+    condition (which can be examined by
+    calling <code>EXECUTION-ERROR-CAUSE</code> on
+    the <code>EXECUTION-ERROR</code>).</dd>
+
+    <br>
+    
+    <dt>function <code>READY-TO-YIELD?</code> <i>future</i>
+      <br>&#8594; boolean
+    </dt>
+
+    <dd>Returns <code>T</code> if the future can <code>YIELD</code>
+    without blocking, <code>NIL</code> otherwise.</dd>
+
+    <br>
+
+    <dt>function <code>SELECT</code> <i>(&amp;rest futures)</i>
+      <br>&#8594; future
+    </dt>
+
+    <dd>Returns the first of the given futures that
+    can <code>YIELD</code> without blocking.</dd>
+
+    <br>
+
+    <dt>place <code>%THREAD-POOL-SOFT-LIMIT</code>
+    </dt>
+
+    <dd>When nil (the default), any newly spawned threads are never
+    released from the thread pool. When an integer, indicates the
+    desired size of the thread pool.</dd>
+</dl>
+
+<h3>Examples</h3>
+
+<pre><code>(defun do-something (with-timeout)
+  (yield (select (pcall #'heavy-io-or-compute-bound-function)
+                 (pexec (sleep with-timeout) :timed-out))))</code></pre>
+
+ <p>The above function <code>DO-SOMETHING</code> illustrates how
+ futures can be composed to provide soft real-time bounds for
+ asynchronous computations.</p>
+
+<h2>Project members</h2>
+
+<p>Eager Future is maintained
+by <a href="mailto:vsedach@gmail.com">Vladimir
+Sedach</a>.</p>
+
+<h2>License</h2>
+
+
+<p>Eager Future is licensed under the terms of the zlib
+license. Details are contained in
+the <a href="http://common-lisp.net/project/eager-future/repository/eager-future/LICENSE">LICENSE</a>
+file, included with the distribution.</p>
+
+   <div class="footer">
+     <a href="mailto:vsedach@gmail.com">Vladimir Sedach</a>, 2009-11-21.
+   </div>
+</body></html>

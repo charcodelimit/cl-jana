@@ -1,0 +1,73 @@
+;;; -*- Mode: Lisp; Syntax: COMMON-LISP; Package: cl-user; Base: 10 -*- 
+;;; -*- coding: utf-8 -*-
+;;;****************************************************************************
+;;; FILE:        jana-java-jimple-conversion.system
+;;; LANGUAGE:    Common-Lisp
+;;; 
+;;; DESCRIPTION
+;;; This file contains the definitions and exported symbols specific to the 
+;;; metamodell of the Jimple Intermediate Representation of the Java Language.
+;;; It depends on the CMU defsystem package, and is loaded
+;;; from a system definitions repository.  All the jana-java-jimple files
+;;; themselves should be in a subdirectory of your working directory,
+;;; named jana-java-jimple/src/ and there should be a jana-java-jimple/bin/ 
+;;; subdirectory for the compiled files.
+;;; 
+;;; 
+;;; Author: Christian Hofmann
+;;; 
+;;; Created: Sun Aug 31 23:00:42 2008 (z)
+;;; 
+;;; Last-Updated: Mi Jan  6 18:10:29 2010 (+0100)
+;;;           By: Christian Hofmann
+;;; 
+;;; Copyright (C) 2009, Christian Hofmann. All rights reserved.
+;;; 
+;;; Permission is hereby granted, free of charge, to any person
+;;; obtaining a copy of this software and associated documentation
+;;; files (the "Software"), to deal in the Software without
+;;; restriction, including without limitation the rights to use,
+;;; copy, modify, merge, publish, distribute, sublicense, and/or
+;;; sell copies of the Software, and to permit persons to whom the
+;;; Software is furnished to do so, subject to the following
+;;; conditions:
+;;; 
+;;; The above copyright notice and this permission notice shall be
+;;; included in all copies or substantial portions of the Software.
+;;; 
+;;; THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+;;; EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+;;; OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;;; NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+;;; HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+;;; WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+;;; FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+;;; OTHER DEALINGS IN THE SOFTWARE.
+;;; 
+;;;****************************************************************************
+
+(in-package :cl-user)
+
+(mk:defsystem #:jana-java-jimple-conversion
+    :source-pathname "jana-java-jimple-conversion/src/"
+    :binary-pathname "jana-java-jimple-conversion/bin/"
+    :source-extension "lisp"
+    :components
+    (("package")
+     ("specials" :depends-on ("package"))
+     ("util" :depends-on ("specials"))
+     ("java-metamodell" :depends-on ("util"))
+     ("java-types" :depends-on ("package"))
+     ("java-values" :depends-on ("package"))
+     ("java-project" :depends-on ("java-metamodell" "util" "package"))
+     ("jimple-values" :depends-on ("package"))
+     ("jimple-instructions" :depends-on ("package"))
+     ("jimple-cflow-instructions" :depends-on ("package"))
+     ("jimple-arithmetic-instructions" :depends-on ("package"))
+     ("jimple-metamodell" :depends-on ("package"))
+     ("jana-java-jimple-conversion" :depends-on ("package")))
+    :depends-on
+    ("jana-base" "jana-java-jimple"))
+
+;;;-------------------------------------
+;;; End.

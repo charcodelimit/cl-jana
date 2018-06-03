@@ -1,0 +1,1586 @@
+patch 820a21ecf08decda0fd28ddcb4ba87d0220420f6
+Author: c.hofmann@utwente.nl
+Date:   Thu Jan  7 11:41:35 CET 2010
+  tagged Beta 4
+
+patch d981c545cedbe8b8fdf2676e8dff23a985cd4aa7
+Author: c.hofmann@utwente.nl
+Date:   Wed Jan  6 23:08:03 CET 2010
+  * Renamed JaDa to Jana
+  chr: - renamed JaDa to Jana due to name clashes with an existing
+         dynamic analysis tool for Java
+       - added documentation for lisp-unit ot repository
+
+patch c5263bde5b5d6b70d2ccb5a2d1d57f0235c2e74a
+Author: c.hofmann@utwente.nl
+Date:   Tue Dec 22 11:20:07 CET 2009
+  * Improved Release Scripts
+  chr: - added macro for printing the elapsed time
+         - the function add-synchronization-analysis
+           now prints timing information
+         - the function identity-transformation
+           now prints timing information
+       - added the function identity-transformation,
+         which loads and saves a project and all its classes
+         - eases system testing of JaDa
+       - loading cl-jada without making a release now
+         sets the *default-pathname-defaults* again,
+         which eases working with relative pathnames
+         during development
+       - fixed naming of os-x and windows executables 
+         in the release scripts
+       - added 'release-mode' that modifies
+         *default-pathname-defaults* only dynamically
+         - ensures that the current path will not end up 
+           as a constant in the final lisp-image
+       - documented release and development mode
+       
+
+patch f1cf92a224d2a5d547561a9a4019bac6d2fbd98f
+Author: c.hofmann@utwente.nl
+Date:   Fri Dec 11 09:55:26 CET 2009
+  * Added Scripts for Internal Release
+  chr: - split release into internal and external release
+         - external release does not use the not fully
+           stable multiprocessing
+         - internal release offers options to set the
+           run-time monitor that is woven, and allows to
+           disable the static analyses
+         - improved error handling when wrong command-line
+           options were provided
+         - modified the loader such, that the current directory
+           is no longer compiled into the lisp-image as
+           *default-pathname-defaults*
+
+patch 1c521ba8265901dfa65bd9effdc65cf43895d862
+Author: c.hofmann@utwente.nl
+Date:   Thu Dec 10 13:39:16 CET 2009
+  * Added missing Documentation
+  chr: - added documentation for simple-streams, chipz, and portable-sockets
+       - added the patch that makes printing floating point numbers
+         CLTL2 conform in SBCL
+
+patch 3208498bd9c67ecb7eeb4512f10bfc68e50d9d60
+Author: c.hofmann@utwente.nl
+Date:   Thu Dec 10 13:06:31 CET 2009
+  tagged Beta 3.3
+
+patch a78a470d30a62ecdf848ea2f2f44ee21421c5072
+Author: c.hofmann@utwente.nl
+Date:   Thu Dec 10 13:01:42 CET 2009
+  * Added Release Scripts
+    chr: - added command-line parsing library
+         - added init function that allows to run cl-jada
+           from the command line
+         - added functions to build a stand-alone executable
+           using either one of: clozure common-lisp, sbcl, or clisp
+
+patch a124c5ed7a70236dad153304936d8b8ca255e936
+Author: c.hofmann@utwente.nl
+Date:   Mon Dec  7 09:18:09 CET 2009
+  * Improved Alias-Analysis
+    chr: - Implementation of Alias Analysis is now implemented
+           in a more object-oriented style
+         - Alias analysis now correctly deals with arrays and
+           field accesses
+            - fields are abstracted using the class where the field is located
+            - arrays are abstracted using the local-variable where the array
+              reference is stored, different array indices are considered one alias
+
+patch 0c55b06a7a52db339a477d7d5125c2a2ab6ceb16
+Author: c.hofmann@utwente.nl
+Date:   Tue Dec  1 21:53:32 CET 2009
+  * Added Fixedpoint Iteration to Alias Analysis, Improved Weaver
+    chr: - alias analysis now uses fixedpoint iteration
+           to determine the set of aliases
+         - weaver now correctly handles the case of field-accesses
+           before the super-constructor call in instance initializers
+
+patch 75ea4289b8a7181aab80c2e9856914f3e9d979e0
+Author: c.hofmann@utwente.nl
+Date:   Tue Dec  1 09:34:51 CET 2009
+  tagged Beta 3.2
+
+patch 6be815db87222b52b1df77d8c4e26564551d59cb
+Author: c.hofmann@utwente.nl
+Date:   Tue Dec  1 09:29:17 CET 2009
+  * Corrected Export of Debug Information
+    chr: - method-signatures now include the return type,
+           as required by the JVM specificiation
+           - fixes Bug in the export of Debug information,
+             where methods with the same name, but different
+             return-type where not distinguishible
+         - refactored export of the association lists that
+           store the line-number tables for each class and method
+           in the project
+           - simplified methods
+           - split functionality into creation of per-method information,
+             and creating per-class information
+
+patch 6c71dc0de7cc05c2a997bf7ed5f885aeee0909df
+Author: c.hofmann@utwente.nl
+Date:   Sun Nov 29 23:26:07 CET 2009
+  * Project-Independent Support for Compressed and Uncompressed Analysis Files
+    chr: - added support for filename extensions information stored
+           in the java-project
+         - added support for repositories with projects that
+           mix compressed and uncompressed files
+           - files can now be compressed or uncompressed after the analysis
+         - refactored creation of the type-variable tree, which is used for
+           converting local variable declarations into the JIMPLE format
+           - simplified creation of local variable lists
+           - improved efficiency
+         - unified quoting of method names, and field names
+
+patch 75fc62e8d6fa315b49e30684df2a8ad4ea1d0841
+Author: c.hofmann@utwente.nl
+Date:   Thu Nov 26 22:24:42 CET 2009
+  * Constructor with Loop Count, Added Thread Libraries to Repository
+    chr: - wrote method to count the number of constructors that contain
+           loop statements
+         - added the multithreading libraries used by Jada to the repository
+
+patch 4aa8fd993bd8e7df2781c4906ab9d6a8521f78a9
+Author: c.hofmann@utwente.nl
+Date:   Wed Nov 25 22:12:11 CET 2009
+  tagged Alpha 3.1
+
+patch 84ca96450796d294b5697279a414eb64079d91df
+Author: c.hofmann@utwente.nl
+Date:   Wed Nov 25 22:07:06 CET 2009
+  * Support for Special Method Names
+    chr: - added support for method names in the Java ByteCode that
+           correspond to tokens in the Jimple Grammar
+           - such 'special' method-names are now quoted
+           - this change impacts the line number-table table,
+             jimple-reference-value-method, and java-method-declaration
+         - added switches for:
+           - debug mode, can be triggered, but requires recompilation
+           - verbose mode, can be now triggered by the user
+           - enabling and disabling of multi-processing, when supported by
+             the lisp-implementation (otherwise no multithreading is used)
+         - fixed major bug in escape analysis that lead to infinite loops
+           when recursion occured in constructors
+
+patch 65fbf0fe6180142ce74399208155144280c0576d
+Author: c.hofmann@utwente.nl
+Date:   Tue Nov 24 00:04:11 CET 2009
+  tagged Alpha 3.0
+
+patch 7966a08012307ca52a3439bfc5be46afc7e296c4
+Author: c.hofmann@utwente.nl
+Date:   Tue Nov 24 00:01:37 CET 2009
+  * Support For Java RuntimeLibrary Project
+    chr: - refactored java-project into java-user-project and java-rt-project
+           - java-rt-project stores the analysis results of analyzing the
+             Java Runtime Libraries
+         - added support for loading classes from the runtime-libraries project
+         - fixed bugs that made cl-jada incompatible with LispWorks
+           - compile time evaluation of the definition
+             of macro util.collections:hash-set
+           - fixed :with <var> = <value> definitions in loops, removed type
+         - better error handling when files with analysis-results are not found
+
+patch 05f6319706345994a1399003e4c8044cb48beb22
+Author: c.hofmann@utwente.nl
+Date:   Mon Nov  9 23:07:44 CET 2009
+  * Bugfix
+    chr: - added better error handling for the case, where a class has not been analyzed
+           and the corresponding file containing the metamodel cannot be found
+
+patch c6f475e7991da3a01cb4e8b6a8124d11382b2f0c
+Author: c.hofmann@utwente.nl
+Date:   Mon Oct 26 11:41:29 CET 2009
+  * Changed Metamodel for Instructions
+  chr: - instructions are now distinguished into:
+          - operations (return no value)
+          - functions (return a value)
+       - only functions can occur on the RHS of an assignment statement
+       - instructions now have a list with the types of exceptions
+         that the instructions might throw at run-time
+          - added potential runtime exception types to 
+            arithmetic instructions and conditional critical section
+            instructions
+          - added load form to object-reference type, which allows to
+            define Java runtime exception types as constants in CL
+       - added instruction positions to the labels of the flow-graphs
+         converted into the DOT format
+
+patch 0cdb7bdc7e9ec0168ad7f47fbaba5e7febf7bf38
+Author: c.hofmann@utwente.nl
+Date:   Tue Oct  6 22:20:54 CEST 2009
+  * Improved Iterative Dataflow Solver
+  chr: - implemented a priority-queue based iterative dataflow solver
+       - implemented a stack-based iterative dataflow solver that
+         achieves the same performance as the priority-queue based 
+         implementation
+
+patch c3ba05ed4ed366bb5b6ef4e52073f832b6dcdec0
+Author: c.hofmann@utwente.nl
+Date:   Tue Oct  6 10:05:21 CEST 2009
+  * Simplified Reaching Definitions Analysis using Bucket Hash-Sets
+  chr: - implemented bucket-hash sets that use buckets to store elements
+         with the same key. Values are compared using eq.
+       - added a class key-hash-set, where a user-definable function
+         determines the keys from values, and eq is used to compare values.
+       - union no longer tries to figure out if the resulting set contains
+         new elements, as this can be determined with the function hashset-count
+       - re-implemented the reaching-definitions analysis using bucket-hashsets,
+         which increases readability and clarity of the algorithm without loosing
+         efficiency. Efficiency stays the same, because the number of incoming
+         branches stays in Java programs usually very low, and Jimple generates new
+         names for locals whenever possible
+       - added a label with the function name to the .dot graphs
+
+patch ec07405d50247ccd92b3163d484023a1ddf40b82
+Author: c.hofmann@utwente.nl
+Date:   Tue Sep 29 23:36:07 CEST 2009
+  tagged Alpha 2.5
+
+patch 57a28e8ff820ef031970f9dc29154f3c59d192fe
+Author: c.hofmann@utwente.nl
+Date:   Tue Sep 29 23:34:39 CEST 2009
+  * Reaching Definitions Analysis
+      chr: - added graph export using the XML based graph exchange format .gxl
+             - added xmls XML parser and generator to cl-utilities
+           - added support for sub-graphs and clusters in s-dot
+             - added methods to calculate sub-graphs that cluster loops
+               in dataflow graphs
+             - improved layouting of flow-graphs by adding weights to edges
+               that influence the degree to which an edge is considered 
+               for layouting
+             - added export of instructions, instruciton labels, 
+               and reaching definitions information
+           - implemented hash-sets with arbitrary equality tests 
+             without generic hash-tables
+             - added fast hash-sets
+             - added support for set-union and iteration
+           - added methods to query and calculate the in-degree 
+             and out-degree of nodes
+           - added support for adding nodes at the end of the node list 
+             of a graph
+           - implemented a fast Reaching Definitions Analysis using an
+             iterative dataflow solver
+           - added sink-node attribute to jimple-flow-graph,
+             which models the method exit
+           - added flow-graph class that has attributes 
+             to allow dataflow analysis
+
+patch 60d542230fb87de5dd7a2c04562376441292581f
+Author: c.hofmann@utwente.nl
+Date:   Tue Sep 22 22:57:53 CEST 2009
+  * Improved Flow-Graph Creation
+  chr: - fixed in bug in flow-graph creation that added edges 
+         from nodes outside of catch blocks
+       - added flow-graph cleaner that removes unconnected parts 
+         of the flow-graph
+       - added branch-target labels to flow-graph visualization
+       - added simple XML parser and emmitter (XMLS) to cl-utilities
+       - fixed bug in normalizer for s-dot, 
+         which prevented that the last character in a label
+         is corectly normalized
+       - improved the readability of s-dot output
+         - now a new line of output is created for each node 
+           and edge definition
+
+patch 4c9f6a420a47a109e57fff3112bf597f22ed9e08
+Author: c.hofmann@utwente.nl
+Date:   Tue Sep 22 09:23:38 CEST 2009
+  * Intraprocedural Flowgraph Creation
+  chr: - factored out creation of flow-graph branch-edges for specific instructions
+       - added exceptional branch edges
+       - added support for throw and trap instructions 
+          - does not handle runtime exceptions like java.lang.NullPointerException
+          - function calls are handled conservatively and exception branches 
+            may need pruning after data from intraprocedural control-flow analysis
+            is available
+       - added subclass test and implemented a Class Hierarchy Analysis (CHA)
+         to determine trap-instructions that may handle local
+         control transfer through throw-instructions
+
+patch 016074171269ce20f2b803c16ef7952dbb3d11a4
+Author: c.hofmann@utwente.nl
+Date:   Mon Sep 21 10:30:39 CEST 2009
+  tagged Alpha 2.0
+
+patch 201b5ce7773e120df2ad683bacb4f3dc9cc3ad2b
+Author: c.hofmann@utwente.nl
+Date:   Mon Sep 21 10:28:38 CEST 2009
+  * Refactored Flowgraphs
+  chr: - separated jimple-flowgraphs,
+         and flowgraph-visualization from the graph-based analyses
+
+patch fa5c81fa498c30a42331fd1b124934a6aafe0e65
+Author: c.hofmann@utwente.nl
+Date:   Sat Sep 19 00:35:33 CEST 2009
+  * Working Flow-Graph Visualization Flowgraph Creation
+  chr: - extended cl-color 
+         - added a common root class for all colors
+         - separated calculation of color values from
+           creating color-objects
+         - added methods to calculate hexadecimal representations of RGB and HSV colors
+         - added missing macros
+       - extended s-dot
+         - added support for cl-color color-objects
+           these can now be used as attribute values in the same way as strings
+         - added normalization of labels, which strips conflicting characters and
+           control strings from label-strings
+       - various fixes in graph-classes
+         - corrected type statements
+         - added documentation
+         - added external interfaces to package definition
+       - added missing write-jimple-statement for local-control-transfer statements
+       - extended flow-graph model
+         - added classes for various branch-edge types
+         - finished flow-graph to s-dot conversion
+       - extended flow-graph creation
+         - only control-flow edges for throws of exceptions need still to be added
+           - implemented goto, if-then-else, switch
+       - fixed accessors and dominator-algorithm
+         - now compiles without warnings, but still untested
+       - added missing system dependent part of the generic hashtable implementation
+
+patch 07ed8bda4501d5273055ed671dff5859447f1baf
+Author: c.hofmann@utwente.nl
+Date:   Fri Sep 18 11:09:13 CEST 2009
+  * Added S-Dot and CL-Colors Libraries
+  chr: - added the S-Dot library
+         - implemented flow-graph -> s-dot conversion 
+           for visualizing flow-graphs with graphviz dot
+       - added CL-Colors library to support the use
+         of X11 color names together with S-Dot
+       - added support for removing edges to the graph class
+       - added macro to generate property-hashtable accessors
+         for graph-edge and graph-node properties
+       - started to implement intraprocedural flow-graph 
+         generation for jimple-closures
+
+patch 57c0ea4f158d1cc07b6249f8fceff8aa37be4b99
+Author: c.hofmann@utwente.nl
+Date:   Wed Sep 16 22:07:31 CEST 2009
+  * First Version of Algorithm for finding Dominators (untested)
+  chr: - finished implementation of generic hash-functions
+         - hash-test consisting of hash-function and equality-test
+           can now be bound to a function or symbol
+         - hash-tests can be provided as symbol or function
+       - finished implementation of hash-set
+         - added methods for iteration
+         - uses generic hash-functions that allow arbitrary
+           equality tests to be used
+       - added additional graph classes
+         - labeled-graphs
+         - rooted-graphs
+       - first version of dominator algorithm
+
+patch 37813574dc9e9bf30483b08feebaf4c95efaf415
+Author: c.hofmann@utwente.nl
+Date:   Tue Sep 15 22:21:14 CEST 2009
+  * Started Implementation of Flow-Sensitive Intra-Procedural Analyses
+  chr: - started fixing of hash-sets
+         - comparison for objects was needed
+         - added generic hash-table class that allows the use of 
+           arbitrary test-functions on all ANSI-CL implementations
+       - fixed use of weak hash-tables for memoization
+         - added value weakness for CCL, and LISPWORKS
+       - started the implementation of algorithms for finding dominators
+
+patch 4772db38f8fdf8de88c47811dd6257b36408cdb8
+Author: c.hofmann@utwente.nl
+Date:   Fri Sep 11 09:24:38 CEST 2009
+  * Started to Implement a Control Flow  Graph Representation
+  chr: - added clos-based graph representation to cl-utilities
+       - started to implement control-flow graph extensions, 
+         that can be used to store control-flow information 
+         in the jada-metamodel
+
+patch 3f53fa83d2dcc1acff74b3dea93aa6b992518a44
+Author: c.hofmann@utwente.nl
+Date:   Wed Sep  2 22:45:40 CEST 2009
+  * Added Support for synchronized static methods
+  chr: - fixed ignored vector-length attribute in flexi-streams
+         now it is possible to configure the buffer-size before
+         writing into a buffer
+       - added functions for replacing elements in a set
+       - adding elements to a set now uses a test-function
+         to compare for equality
+       - moved debug-information output to java-project
+       - renamed instruction-label to instruction-index, 
+         as it signifies the position in the closure
+       - added initialization of newly added 
+         branch-target-labels to the position of the
+         corresponding instruction in the closure
+       - added silent loading of java-classes belonging to a project
+       - constructor for constant-class-reference values now
+         makes sure that the binary signature of a class is used
+       - added class-level contexts to closures as well
+         - added accessors that allow to directly query the contexts
+           associated with a closure
+       - finsished implementation of dynamic-closure contexts
+       - finished implementation of method-invocation contexts
+       - added support for synchronized static methods 
+         - synchronization wrappers are now generated for these
+           methods, as well
+       - finished initialization of wrapper contexts
+         - TODO: use wrapper contexts to simplify synchronization 
+                 wrapper generation
+       - started implementation of catch blocks for wrapped-method calls
+       - added memoization to escape-analysis
+       - fixed bug in collection of field-access sites that caused classes
+         to be repeatedly loaded
+         - classes are loaded only once from a project now, uses 
+           method (java-class <java-project>) instead of load-java-class
+       - added test for synchronization wrapper transformation
+
+patch 8e1d27c7de488d53ff7145f67590105d45b0d475
+Author: c.hofmann@utwente.nl
+Date:   Fri Aug 28 11:43:23 CEST 2009
+  * Full Debug Information Support + Bugfixes
+  chr: - the filename of the file where the debug-information of a project
+         is stored is now an attribute of java-project
+          - extended project readers and writers accordingly
+       - fixed bug in conversion of modifiers to the jimple-representation
+          - additional space was written when the modifier was unknown
+          - added (optional) warning when unknown identifiers are encountered
+          - important for matching Java signatures
+       - fixed bug that modifier keywords are not reset after recompiling
+          - modifier keywords are now set during compilation and loading
+       - fixed bug where exporting a project without loaded classes
+         would result in errors
+          - iteration over class-names and check if a corresponding
+            metamodel-element can be found
+
+patch edffd475c7f516749e1fa94646526399265b2e4f
+Author: c.hofmann@utwente.nl
+Date:   Wed Aug 26 22:51:34 CEST 2009
+  tagged Alpha 1.7
+
+patch 22793eedeb940301dd550ca7546354b2f0371fdd
+Author: c.hofmann@utwente.nl
+Date:   Wed Aug 26 22:49:12 CEST 2009
+  * Added Support for Debug Information
+  chr: - added constructors that take as argument the line-number of the
+         corresponding line in the sourcecode
+       - added source-file attribute to java-classifier-declaration
+       - jada-instructions now have the attribute line-number
+       - implemented serialization of debug information into a 
+         debug-info file
+
+patch 9dd783ef296876f5fc69590ca0d401b6d3870ee0
+Author: c.hofmann@utwente.nl
+Date:   Tue Aug 25 21:39:46 CEST 2009
+  tagged Beta 1.6
+
+patch 77a1e02f00e56ff7f5553d54b3b1626f8f33859e
+Author: c.hofmann@utwente.nl
+Date:   Tue Aug 25 21:32:01 CEST 2009
+  * Implemented Subtype Relationships
+  chr: - improved metamodel
+         - there is now no longer a subtype relationship for the implements relation
+           (i.e. sub-implementor)
+         - subtype relation of inherits designates direct sub-classes
+       - added methods to update the subtype relationships when a class is loaded
+       - simplified with-memoization macro, now uses a dynamic let-binding
+       - smaller bug-fixes
+         - find-context-variable-... was called with variable instead of variable name
+         - getter exception-types was used instead of thrown-exceptions to query
+           the exceptions from a method-implementation instance
+
+patch 95c091d2b1ad8b595e545b8441e8a752ad255d54
+Author: c.hofmann@utwente.nl
+Date:   Mon Aug 24 22:11:57 CEST 2009
+  * Extended Compile-Time Context Metamodel
+  chr: - simplified method-invocation contexts and cleaned up
+         class-hierarchy for closure-contexts and method-contexts
+         - method contexts were actually closure contexts, as 
+           run-time information about variables only accessible in
+           a method-body was required
+         - method-context is compile time information about the 
+           method, e.g. its signature
+         - split method invocation context according to the two 
+           use-cases: determine the context for an existing call,
+           and create a new context for an existing method
+       - changed binding declarations format from string-lists
+         to keyword value lists
+         - allows conversion from lisp-values to java-values
+           and direct binding of metamodel-elements
+       - cleaned up transformation code, now it is possible to
+         initialize only part of the context-variables that
+         are accessible through a context
+       - added methods necessary to write java-classifier 
+         signatures
+
+patch 438025c794f34bcd395c8ed88fec8ba692dd8ffe
+Author: c.hofmann@utwente.nl
+Date:   Fri Aug 21 10:22:57 CEST 2009
+  * Major Change in Jimple Value Naming!
+  chr: - changed the name of jimple-value-reference-parameter to jimple-value-reference-argument,
+         which makes this version of cl-jada incompatible with all older versions of jada
+       - unified the naming from parameter to argument
+       - added boolean types, because Jimple can distinguish between booleans and integers
+         (before boolean types were converted to integer types, as for the JVM they are equivalent)
+       - added method to convert between lisp-values and Java constant-values
+
+patch 39af472b957f649e4a2794a982de9bc272504ea3
+Author: c.hofmann@utwente.nl
+Date:   Wed Aug 19 23:08:38 CEST 2009
+  * Modularized Method Reference Creation
+  chr: - put the creation of method references for the methods
+         added by weave-eraser-methods into separate functions
+       - changed the interface of the methods used to add 
+         method-call-instructions
+           - creation of method references is now separated 
+             from the creation of bindings and creating the 
+             call-instruction
+
+patch c8a2d1e585082043699b3b88e9263f76f88981e6
+Author: c.hofmann@utwente.nl
+Date:   Tue Aug 18 22:41:48 CEST 2009
+  * Improved Multiprocessing
+  chr: - the java-metamodell-loader now uses the libraries
+         pcall and bordeaux threads to implement concurrent 
+         loading of the metamodel
+         - concurrent loading now works for SBCL and CCL,
+           all other compilers use a serial version of the
+           loader code
+       - fixed bug in setting the package, where the symbols
+         required for loading the metamodel are stored
+         - added to functions for loading in cl-io-zip and 
+           jada-java-metamodell a :package keyword that allows 
+           to select a package in which the symbols are found /
+           are created when an SExpression is loaded
+       - modularized update of branch-target labels in the weaver,
+         that are required when new instructions are inserted 
+         before an instruction that is a branch target
+       - extended escape analysis to treat Java 'native'-methods
+         conservatively as methods where the this-reference can
+         escape
+
+patch 4595df6c2a2dba3e6d0a7a31adb081ee358814e4
+Author: c.hofmann@utwente.nl
+Date:   Sun Jul 26 22:25:31 CEST 2009
+  tagged Beta 1.5
+
+patch 5983162b72f8f3376816a2895f808b18c087ec01
+Author: c.hofmann@utwente.nl
+Date:   Sun Jul 26 22:22:50 CEST 2009
+  * Added Support for Array Assignments
+  chr: - added support for assignments of fields of type java-array-type
+         - analysis creates a map of local variables that store 
+           references to such fields
+         - then all methods containing such fields are searched for 
+           array references that use the stored local variables
+         - instrumentation is added accordingly
+
+patch 55c4a62472bd7fc863cebceeee78121e82f65ff4
+Author: c.hofmann@utwente.nl
+Date:   Wed Jul 22 22:54:13 CEST 2009
+  * Fixed Weaving of Unlock Notification
+  chr: - the eraser-aspect weaver now correctly weaves in
+         unlock notifications *AFTER* the monitor-exit
+         instruction
+
+patch 993c2ff04d96a35a106308b40bd7e9f58d9c3af8
+Author: c.hofmann@utwente.nl
+Date:   Tue Jul 21 23:48:39 CEST 2009
+  * Factored Field Access Counting into jada.java.mx.jimple
+  chr: - factored field-access counting into package
+         jada.java.mx.jimple and added the external interface
+         write-field-access-statistics-to-file
+       - fixed bug in synchr. wrapper creation
+         - synchronized attribute is now removed 
+           from the wrapped method as well
+       - added conditionals to weaving the monitors, which
+         allows to choose weaving in <clinit> and choosing
+         the activation of the escape-analysis
+       - weaving the monitors now ignores assignments of the
+         field $this, because it is created by the compiler
+
+patch 026a1e4d4f279ae5191c860d2db24b6e37a074f6
+Author: c.hofmann@utwente.nl
+Date:   Tue Jul 21 23:47:55 CEST 2009
+  * Added Escape-Analysis for the $this reference in Constructors
+  chr: - added methods for comparing reference-values
+         (re-evaluate and replace evtl. later against equalp)
+       - fixed errors in memoization scheme 
+         - wrong keys were used for jimple-reference-value-this,
+           and jimple-reference-value-caught-exception
+       - added methods for getting the super-types and the 
+         direct super-type of a classifier-declaration to the
+         java metamodel
+       - extended the list of valid modifiers to include 
+         synthetic, bridge, and var-arg modifiers
+       - added easier getting of the this-reference-value 
+         to the instance-contexts
+         - is now a method, the contex-variables 
+           slot-accessor doesn't need to be used anymore
+           directly
+       - added management of local-variables 
+         to the dynamic-method context
+          - the managed variables are used by transformations 
+            to add new references to the method
+          - implemented generation of unique fresh local-variables
+       - implemented alias-analysis for arbitrary java-values
+       - implemented escape-analysis for the escape of the 
+         $this reference from constructor calls
+       - added hash-set implementation
+       - added top-level interface for weaving monitor-calls
+       - added methods to search java-methods in the superclass-chain
+       - added test-functions for alias-analysis and escape-analysis
+
+patch 70efcaf837fb04f640a246ba464e2b509a777eab
+Author: c.hofmann@utwente.nl
+Date:   Tue Jul 14 23:03:31 CEST 2009
+  * Implemented Monitoring of Conditional Critical Sections
+  chr: - monitoring of field-access sites is no longer woven
+         in places before the super constructor call
+       - added weaving of monitor calls before conditional critical
+         section instructions
+       - fixed adding contexts multiple times when binding
+         declarations are used
+
+patch 99ac14d751c65cbf6f4bbbe12458912889413708
+Author: c.hofmann@utwente.nl
+Date:   Mon Jul 13 23:54:21 CEST 2009
+  * Implemented Field-Assignment Monitoring
+  chr: - added function to find new instruction 
+         positions using the original position in the closure
+         before transformations were applied
+       - added methods to create reference-values from declarations
+         for methods and variables (could also be implemented for fields)
+       - copy constructors now create deep-copies of all slots
+       - method find-last-initialization-statement will now also
+         consider constructor calls as initialization statement
+       - added weaver for weaving field-assignment monitors
+
+patch 58cd0116a57485ddfc18d84129b57549596c9d98
+Author: c.hofmann@utwente.nl
+Date:   Sun Jul 12 23:17:58 CEST 2009
+  * Started Implementation of Method-Call Contexts
+  chr: - added jimple-closure-contexts, which allows to track
+         all contexts that have been added to a closure
+       - added classes for method-call-contexts
+       - added constructors for creating method-call-contexts
+         from method declarations, method-invocation instructions,
+         and assignment instructions with an invocation instruction as
+         the right hand side statement
+       - added tests that check if contexts have been already added
+         to a closure, which prevent adding the same context multiple times
+
+patch f461020f6fe37ec15a513a3fcb69ee8dd8eed436
+Author: c.hofmann@utwente.nl
+Date:   Thu Jul  9 00:45:24 CEST 2009
+  * Major Improvement of Path Expressions
+  chr: - started to document path expressions
+       - slots are now designated using keywords
+       - indices in vectors are now designated using keywords
+       - multiple predicate blocks and 
+         symbolic-expression blocks can now be used
+         in an AND like fashion
+       - symbols can now be used in predicates
+       - added more test-cases
+
+patch c0ec38869980a4347e8add02bdbce3f67683c95a
+Author: c.hofmann@utwente.nl
+Date:   Tue Jul  7 00:24:34 CEST 2009
+  * Added Signatures to Context & Started Refactoring Path Expressions
+  chr: - path expressions are now a separate system 
+         (cl-utilities/clos/clos-path)
+       - split path-expressions into lexer, parser, select-statements,
+         path, and test
+       - refactored iteration of hash-tables using maphash 
+         to use the loop macro instead
+       - added optimization settings
+       - added type declarations in methods that create
+         jimple-statements from metamodel elements
+       - eased constructions of constant-string values
+       - minor bug-fixes (undeclared variables)
+       - added documentation for path-expressions
+
+patch 3c472de9136365832a8334ce300c61e8195e44eb
+Author: c.hofmann@utwente.nl
+Date:   Fri Jul  3 22:48:53 CEST 2009
+  * Implemented Changes Necessary for the use of Target-Labels
+  chr: - fixed splitting of lists
+       - changed jimple-metamodel and local-control-transfer instructions
+         such, that target labels can be used instead of target-indices
+       - changed jimple-conversion to accomodate these changes as well
+       - fixed static method calling
+
+patch c2b30c1b1ecce2fe4f3815e18e46680caed5e99c
+Author: c.hofmann@utwente.nl
+Date:   Wed Jul  1 00:21:52 CEST 2009
+  * Implemented Transformations for static Method-Calling
+  chr: - moved copy constructors from the java-metamodel to jada-mx-java
+       - added Java-declaration string -> java-type conversion
+       - removed unneccessary initialization of scopes
+       - implemented binding of java-values to method-arguments
+       - implemented method-contexts (dynamic + static)
+
+patch 9ff07e098d40230a25f913457381e4adf68950df
+Author: c.hofmann@utwente.nl
+Date:   Tue Jun 30 00:20:55 CEST 2009
+  * Improvement of Contexts and Scopes
+  chr: - implemented transformations of methods in order to add context variables
+         for instance-level and method-level contexts
+       - implemented class-level and instance-level scopes that allow to create
+         field-references using the field-name
+       - added low-level functionality for inserting Jimple instructions to the weaver
+       - instructions are no longer memoized (see: design rationale)
+       - added on-demand loading of classes
+       - added with-memoization macro that allows to restrict the scope of memoization tables
+       - added classes to represent bindings to the metamodel, which allow to declare
+         bindings between context-variables and method arguments
+       - small improvements to foil for better CCL and LISPWORKS compatibility
+       - added documentation (design rationale, coding conventions)
+       - added line-counting script that allows to measure NCLOC (non-commenting lines of code)
+       - added load-form for number-encodings to allow number-encoding instances
+         to be stored in .fasl files
+       - changed types from integer to fixnum where appropriate in cl-io 
+
+patch 6f91198c5f7bd4f13b1316046d5d01e4cd99ddfc
+Author: c.hofmann@utwente.nl
+Date:   Sun Jun 21 23:28:39 CEST 2009
+  * Extended Metamodel
+  chr: - added metamodel entities for dynamic and static contexts
+       - implemented creation of classifier-level scopes
+       - implemented creation of global static-context
+       - refactored global-memoization cache into a
+         structured cache
+         - the static context is now part of the memoization cache
+           and not created anymore in a post-processing step,
+           after loading the metamodel.
+
+patch 8c4416f288a8ec20788722542050df3b9da91265
+Author: c.hofmann@utwente.nl
+Date:   Fri Jun 19 23:30:08 CEST 2009
+  * Extension of the Metamodel
+  chr: - fixed Bug in the metamodel
+         - jimple-value-local-variable is now a jimple-reference-value
+       - added scopes, contexts, and variable elements to the jada-metamodel
+       - implemented creation of classifier-level scopes
+       - extended the package tools, now informations about 
+         available external symbols can be printed as well
+
+patch e94f9b494b5a3b45abfd041115795ad0a1fa76f1
+Author: c.hofmann@utwente.nl
+Date:   Thu Jun 18 14:41:29 CEST 2009
+  * Major Refactoring of the Package Structure
+  chr: - added checksum calculation to extraction 
+         of the zlib deflate format in io.zip
+       - split up the jada.metamodel package
+         - the top-level package is :cl-jada or :jada,
+           which provides the external interface
+         - the essential parts are:
+            - jada, jada.metamodel, jada.java, jada.mx
+         - modified system and package definitions accordingly
+       - factored out the loading of the metamodel into package jada.mx.java
+       - factored out the implementation-dependent details of creating hash-tables 
+         for memoization into a function
+       - the memoization cache is now associated to the global-scope
+       - the memoization cache is now correctly reset when the metamodel
+         of a class has been loaded
+       - added missing method for getting the unqualified-name from a jada-name
+       - added functions for querying the external interface of packages
+       - fixed debug output
+       - added error handling in case that the classname dictionary is empty
+       - minor fixes to the implementation-dependent part of the java-loader
+
+patch 62e4eb4014c5b93aeafe512b470d623c2388d60e
+Author: c.hofmann@utwente.nl
+Date:   Sun Jun 14 20:35:44 CEST 2009
+  * Reorganized cl-io
+  chr: - moved all zip related functionality of cl-io into the package
+         cl.io.zip
+
+patch 02073a2d4e1fe91eb54aa16971b46964cc4b98d8
+Author: c.hofmann@utwente.nl
+Date:   Fri Jun 12 22:59:02 CEST 2009
+  tagged Alpha 2
+
+patch 15690b0c0973de076573ed92ce20ae5be0fc0873
+Author: c.hofmann@utwente.nl
+Date:   Fri Jun 12 22:58:27 CEST 2009
+  * Major Bugfix in Floating Point Conversion
+  chr: - fixed handling of floating point numbers
+         - IEEE double precision floating point numbers are now read in as explicit
+           double precision floats using the exponent indicator #\d
+         - double floats are distinguished into floats with exponent, and those without.
+         - floating point numbers are printed with the exponent indicator #\E,
+           and exponents of form #\d0 are removed, when the float is of type 
+  	 float without exponent
+       - added the chipz library for deflate-decompression
+         - modified cl-io-zip to use chipz
+       - started to implement scopes as first-class metamodel elements
+
+patch 8b9a96a2f263c05ee6797ce7e2b68374a95bc2c2
+Author: c.hofmann@utwente.nl
+Date:   Thu Jun 11 20:24:03 CEST 2009
+  * Fixed adding of synchronization wrappers
+  chr: - the base-method's signature is now also copied
+       - arguments are now passed in the correct order
+
+patch f2db379dde69bf96aec7c99b0f7eb9285e756f38
+Author: c.hofmann@utwente.nl
+Date:   Mon Jun  8 22:56:35 CEST 2009
+  * Finished Implementation of Saving Java-Projects
+  chr: - fixed bug in converting field-names to 
+         jimple-statements
+         - field-name strings that correspond to
+           reserved java-names are now correctly quoted
+       - fixed loading java-project from dotted lists
+         - the association lists to store java-projects
+           can now be proper-lists and dotted-pairs
+       - the names of the classes in the metamodel 
+         are now saved in the project-file
+       - java-project files are now pretty-printed
+
+patch c749fd1be8f1deb9405a3b5f45b79b62abcec117
+Author: c.hofmann@utwente.nl
+Date:   Sat Jun  6 11:23:16 CEST 2009
+  * Added Support for Saving Project Files
+  chr: - added support for saving projects files
+       - added keywords necessary for compiling the transformation
+         results to java-project
+       - added function to cl-io-fad that returns a relative pathname 
+         given a pathname and a base-directory pathname
+       - documented new java-project file-format
+       - changed nickname of cl-io-fad from util.io.fad to io.fad
+
+patch 7c48c4d30157d573d3959d41f92500e6290de551
+Author: c.hofmann@utwente.nl
+Date:   Wed Jun  3 22:46:37 CEST 2009
+  * Major Bugfixes -- Synchronization Wrappers
+   chr: - started to update file-headers to an Emacs compatible header format,
+           and updating the license to a BSD license where applicable
+         - put globals into separate files
+         - added loading of java-projects by giving the project-name
+         - added writing of the classes in a java-project in jimple-format
+           to the transformation directory specified in the java-project
+         - fixed copying of method-modifiers
+           - now uses the constructor instead of the memoizing-constructor
+         - fixed wrong type declarations
+           - constant integer values (byte, short, ..)
+         - fixed adding of synchronization wrappers
+           - method attributes are now modified correctly
+           - local-variable-declarations and values for the local-variables
+             are now created and used correctly
+           - added method to create a local-variable-value from a 
+             local-variable-declaration
+
+patch f48d7724db373f219f657cb25fd382aa8e289a2b
+Author: c.hofmann@utwente.nl
+Date:   Wed Jun  3 22:42:46 CEST 2009
+  * Implemented GZip and ZLIB deflate compression
+  chr: - fixed jada-analysis file loader
+         - Jada Beta 7 output files are now correctly loaded
+       - added support for GZipped and ZLIB compressed output files
+         - added support for an extended ZLIB compress format that
+           stores the input-size as the last-word in the stream
+         - deflate support without checksums and preset dictionaries
+       - added checksum support to cl-io
+       - fixed slot-type bugs in the jada-metamodel
+
+patch b7dacaa39516c68d20c55f47f1a6685b813bf455
+Author: c.hofmann@utwente.nl
+Date:   Sat May 30 00:36:46 CEST 2009
+  * Factored out Number Encoding into cl-io
+  chr: - factored out all encoding functionality into the package cl-io
+       - fixed type-hierarchy for encodings
+       - added ieee-floating point encodings
+       - implemented bcd encoding/decoding
+       - implemented writing of encoded numbers
+       - created systems for cl-io and cl-io-zip
+       - fixed bug in reading gzip headers if no extra fields are defined
+         - the extra field-length is no longer read
+
+patch 5c895f4d445803ce9e246d08c56e16170a945d61
+Author: c.hofmann@utwente.nl
+Date:   Thu May 28 23:52:43 CEST 2009
+  * Added Reading and Writing of Streams using Integer Encodings
+  chr: - added integer types for unsigned, signed 2's complement, 1's complement, and
+         bcd-encoded signed integers.
+
+patch 92fdcb30c21af4ef511ab33e4f1b2711a129fc37
+Author: c.hofmann@utwente.nl
+Date:   Wed May 27 23:16:48 CEST 2009
+  * Working GZip Support & Project File Loader
+  chr: - fixed project file loader to load Jada Beta 7 projects
+       - added support for loading GZip(ed) .lisp files, as created by
+         Jada Beta 7
+
+patch 771acf82bc7b3e48d16029fcf7c0f0a9f6f10605
+Author: c.hofmann@utwente.nl
+Date:   Tue May 26 11:20:30 CEST 2009
+  * Removed Classpath Management
+  chr: - classpaths are now stored in project files,
+         and this information is used by jada to analyze 
+         .class files in the project
+
+patch 6b93eb5a3ca4b754a771ac944d183a037d60fa40
+Author: c.hofmann@utwente.nl
+Date:   Thu Mar  5 21:31:34 CET 2009
+  * Added hash-table support for path-expressions
+  chr: - added support for hash-tables in path-expressions.
+         - objects can now be stored as values in a hash-table.
+           the slot-values of all hash-table-values will be then collected.
+       - removed support for recursive collections in path-expressions
+         - objects can only be stored in sequences or hash-tables. lists of 
+           lists and other structures with a nesting-level > 1 are no longer 
+           supported (however its easy to add it again, at the cost of speed)
+       - fixed type-system bugs that occur when SBCL inlines the functions,
+         by removing type declarations that conflict in this case
+
+patch 85d75dea79bbe0f486375d11c8fc4d62b720cba1
+Author: c.hofmann@utwente.nl
+Date:   Wed Mar  4 23:21:55 CET 2009
+  * Improved Path-Expressions
+  chr: - improved the error handling in the path expression
+         parser and compiler
+       - path-expressions can now start with a 
+         symbolic-expressions that calulates the queried object
+       - accessor-names can now be used in path expressions together
+         with slot-names
+         - the accessor-methods have precedence over
+           directly accessing the slot, when slot-name and accessor-name
+           are the same
+
+patch e7741796e644f0284143480e80617d39e37e0e26
+Author: c.hofmann@utwente.nl
+Date:   Fri Feb 20 22:27:45 CET 2009
+  * Cleanup
+  chr: - cleaned up SBCL evaluator directives 
+         - they now use (locally (declare ..
+         - fixed bug, as #+ macros can not be used to protect parantheses
+       - fixed bug in jimple conversion where qualified-name was required 
+         as slot accessor (now there is a method qualified-name for instances
+         of class jada-name
+       - cleaned-up naming in the memoizing-constructor of jada-name
+
+patch 2f3067cae68a1bfe85dc78a245fbc01f0f4e7198
+Author: c.hofmann@utwente.nl
+Date:   Tue Feb 17 21:56:12 CET 2009
+  * Added Evaluator Directives for SBCL
+  chr: - added evaluator directives for SBCL, that 
+         make sbcl interpret the metamodels instead of compiling them.
+         This brings execution speed almost 'en par' with CLISP,
+         as expensive compiler optimizations are avoided.
+
+patch 16963da2eebf1e17326972538f24a110454231be
+Author: c.hofmann@utwente.nl
+Date:   Tue Feb 17 19:55:46 CET 2009
+  * Major Overhaul of the System Definitions
+  chr: - Fixed dependency Bug, now macros, and memoization macros
+         are loaded first.
+       - Adapted load-jada.lisp to only load the top-level systems,
+         the rest is now loaded through the defined dependencies among
+         systems
+      
+
+patch 538ff5b788018d848e815f68f42fd9ddb9fe3381
+Author: c.hofmann@utwente.nl
+Date:   Tue Feb 17 11:54:17 CET 2009
+  * Fixed Java-Types Metamodel
+  chr: - java-primitive-types are now jada-named-elements as well
+        - added methods to get the type-string that is required to convert
+          the primitive-type to jimple
+        - the type-string is now the fully-qualified name of a java-signature
+       - fixed type declarations in java-metamodel
+       - removed accessors unqualified-name and qualified-name 
+         from jada-signature
+           - the accessors are obviated by corresponding method declarations
+       - removed java-global-clisp.lisp
+           - this file is now obsolete
+           - the memoization system has been redesigned with macros, which makes
+             the "optimization" of using memoization functions instead 
+             of methods obsolete
+           - changed the system definition jada-java.system accordingly
+
+patch 3e61045a6f5dd9f7e440169f6da6ce5ef59e3d07
+Author: c.hofmann@utwente.nl
+Date:   Tue Jan 20 23:17:22 CET 2009
+  tagged Beta 1.4
+
+patch 65222dba83fb958745d79e31d81e5b8fb92471ac
+Author: c.hofmann@utwente.nl
+Date:   Tue Jan 20 23:13:31 CET 2009
+  * Major Bugfix
+  chr: - fixed bug in in memoizing constructor of java-constant-double-value and 
+         java-constant-float-value
+
+patch 2af49e8729dfe6ad9a5620ab6e54112d9ceff014
+Author: c.hofmann@utwente.nl
+Date:   Thu Jan 15 22:23:09 CET 2009
+  * Major Bugfixes
+  chr: - fixed bugs in class-hierarchy 
+         - java-void-type and java-boolean-type had 
+           class precedence lists that were incompatible with java-type
+       - fixed bugs in constructor generator for java constant values
+         - modified the load-order in the system definitions, such that
+           the macros for memoizing constructors get loaded first
+         - added the classname as a key, which prevents returning
+           the same instance for different types with the same value
+           (e.g. 0L,0F, and 0 had the same identity)
+       - fixed type system errors in jimple conversion
+         - now write-jimple-statement methods specialize on stream
+           instead of string-stream, which fixes the type error when 
+           file-output-streams are used instead of string-streams
+       - fixed small bug that prevented loading class files
+         right after analysis (still to do: general solution
+         that also fixes the same problem if analyze-project is used!)
+       - ToDo: add memoization statistics and remove debug output used now
+
+patch 66c960ffc0f148fbe00636c3c5374b8d42b9ca07
+Author: c.hofmann@utwente.nl
+Date:   Wed Jan  7 14:08:31 CET 2009
+  * Fixed Bugs in java-values
+  chr: - fixed bug in java-types model. Java-null-value has now correctly the java-null-type.
+       - added type declarations
+       - removed initial-value from java-field-declaration as it is not used yet
+       - fixed bug in memoizing constructor of java-modifiers, now the modifier-type is used
+         as well as a key. Before field-modifiers and method modifiers with the same modifier 
+         list had the same identity.
+       - fixed CLISP-workaround by adding a symbol that is used as unique identifier
+         for java-null-type
+       - added memoizing constructors for java-null-value, java constant values,
+       - basic-type constant values now use the memoizing basic-type constructor
+       - exchanged the function definition order in load-project.lisp, such that functions are
+         declared before use
+       - modified test-scripts to output to a ./log directory
+
+patch 5ca4bccac1f293d461ddbe8e1e3cf02f88d19712
+Author: c.hofmann@utwente.nl
+Date:   Tue Jan  6 22:01:27 CET 2009
+  * Major rework of the symbol tables
+  chr: - removed the global dictionary and dictionary merging
+         for the per class-file dictionaries that map integer indices
+         to names, in order to save space
+       - rewrote the memoization system
+         - defining memoizing constructors is now a responsibility
+           of the constructors belonging to a class. No additional
+           methods are anymore provided in java-global.lisp.
+         - added macros to support memoizing constructor creation
+         - added macros for java-global-environment specific caches
+           - difference cache, environment: a cache is an unstructured
+             hash-table that stores already created instances.
+             An environment is a structured cache, that can be used
+             to look up and enumerate instances of a specific type.
+         - added memoizing constructors for all java-types, all jimple-values,
+           invocation-instructions, java-modifiers, local-variable-declarations
+         - rewrote memoizing constructors for java-types, java-classifiers, 
+           java-fields, java-packages, jada-names, and java-signatures
+       - added reference .jimple file for test-script.lisp
+       - added dependencies to "global.lisp" to the jada.system 
+           
+           
+  
+
+patch d99ca7215dec73b632b207d195009355b98600dd
+Author: c.hofmann@utwente.nl
+Date:   Tue Jan  6 10:17:11 CET 2009
+  * Started to re-implement the memoizing constructors
+  chr: - started to re-implement the memoizing constructors
+         - Reasons:
+            - copying objects as needed has become trivial due to
+              cl-utilities:copy-object
+            - too much knowledge about object construction resides in 
+              java-global.lisp
+            - slot-values used to determine the identity of a memoized object
+              are best localized in the constructors of the classes instead of
+              having them all in java-global.lisp
+       - added memoization for jimple-reference-values
+       - modified memoization of jada-symbol to use the new memoization system
+         and test the memoization system
+       - moved the CL implementation-dependent code from copy-obj.lisp to 
+         cl-utilities.lisp
+       - modified test-script to output the results
+       - load-project.lisp now manages the loading of the classname-dictionary
+         see: changes to java-loader.lisp and java-project.lisp
+       - moved methods responsible for classname translation and 
+         classname-dictionary loading to java-project.
+            - Rationale: the classname-dictionary is part-of a java-project
+                 
+
+patch 6bf4c1e455fc3a928ab21a851bc7356bc4c97598
+Author: c.hofmann@utwente.nl
+Date:   Wed Dec 31 19:46:54 CET 2008
+  * Added cl-utilities for copying objects
+  chr: - added the system cl-utilities that allows to copy CLOS objects
+       - modified the original copy-obj.cl to work with current implementations
+         of common-lisp  
+
+patch 1a935f1ebd5c07315090fdd9119dde5f6152d1e2
+Author: c.hofmann@utwente.nl
+Date:   Fri Dec 19 21:38:33 CET 2008
+  * Added Functionality to Save Projects in Jimple-IR
+  chr: - added functionality to save classes and aspects
+         in a project as .jimple files that contain
+         their Jimple Intermediate Language Representation
+       - fixed Bug in jimple conversion of trap-instructions and
+         in the label creation (looked up the previous instruction,
+         even when no previous instruction existed)
+       - fixed jimple conversion of statements that contain instance-references,
+         namely arrays and instance-variables (fields)
+       - added methods to output the full Java signatures of fields and methods
+       - added methods to retrieve the qualified-name from java-classifier-declarations
+       - minor: directory names injava-loader.lisp are now implemented as pathnames 
+          instead of strings
+       - ToDo: - implement the functionality that uses string manipulation of filename 
+                 strings with CL pathname handling functions
+       
+
+patch 83927415fe5a4fbc1ae55be3506c45cf5b2c32e7
+Author: c.hofmann@utwente.nl
+Date:   Thu Dec 18 10:05:10 CET 2008
+  * Started to implement the weaver
+  chr: - added accessors to the metamodel that are required for
+         code modifications through the weaver
+       - code still needs refactoring, as many methods that belong into the
+         corresponding metamodel .lisp files are now stored in load-project.lisp
+
+patch 110e7957698014d29d39299c0a28202a909f178a
+Author: c.hofmann@utwente.nl
+Date:   Thu Dec 11 20:56:14 CET 2008
+  * Added Functions for Showing and Saving Field Access Counts
+  chr: - separated field access counting and showing the field counts
+       - added saving of field counts into a dictionary file
+         with the format: (format stream "~A ~A" field-name access-count)
+
+patch a50df37aaa6a83a315b031a9ef450ea973ff3349
+Author: c.hofmann@utwente.nl
+Date:   Mon Dec  8 14:47:31 CET 2008
+  * Implemented Field Access Counting
+  chr: - implemented field access counting
+       - added the missing system definitions for fee
+
+patch 2bb843103d761f6d20bc7ea23adc18f282fac13a
+Author: c.hofmann@utwente.nl
+Date:   Fri Dec  5 00:43:51 CET 2008
+  * Major Cleanup of Sourcecode
+  chr: - added system definition and created files in its own directory
+         for the classes that provide the connection to the Java 
+         Front-End Extension Fee
+       - updated documentation in some file headers
+       - cleaned up constructors for java-global-dictionary
+       - made load-java-class a generic function that specializes on the
+         dictionary
+       - moved the class java-project into its own file and added methods
+         for loading the classes defined in a java-project
+       - started to implement the outermost layer of the framework that can
+         be used to connect to a fee-server and analyze a project
+       - fixed type bug in the array-type-signature function that is used by
+         the constructor of java-array-type
+
+patch 51fa792944ee2f2e067e10a725f904ef21aa8c68
+Author: c.hofmann@utwente.nl
+Date:   Mon Dec  1 22:19:56 CET 2008
+  * Started to Implement the Interface to Fee
+  chr: - started to implement an interface to the Fee Java Bytecode 
+         analysis front-end 
+       - added classes to support a foil connection and 
+         managing the analyzed project
+       - ToDo: make java-loader a pure metamodel loader and move the
+               connection to fee-server or jada-tool classes
+
+patch 82870f2fd9678576e26b56e98683fe75a82d13bd
+Author: c.hofmann@utwente.nl
+Date:   Mon Nov  3 22:22:41 CET 2008
+  * Bugfixes and Extension of PathExpressions
+  chr: - added support for symbolic-expressions for the left hand side
+         of abbreviated comparisons in path-expressions
+       - fixed bug when nil objects are queried - element-f is no longer
+         mapped on empty lists
+       - factored out compilation of abbreviated comparisons in path-predicates
+       - added new reader-macro #? for compiling predicates that test the 
+         existence of elements designated by a path-expression
+       - improved java-loader - dictionaries are only evaluated when present 
+         in the jada .lisp file
+       - added newest version of foil to the repository
+
+patch e17868010c812e320cf7904e365faab7de8939e9
+Author: c.hofmann@utwente.nl
+Date:   Wed Oct 29 21:03:18 CET 2008
+  * Implemented Symbolic Expression Compiler
+  chr: - the attributes @value, @type, and @class
+         can now be used in symbolic expressions
+         to refer to the elements of a slot
+       - replaced semi object-oriented implementation
+         of the lexer with a function
+       - implemented full predicates that use
+         symbolic expressions
+
+patch 16ff8f1366c6f8722f483d1894b829c39dc0b444
+Author: c.hofmann@utwente.nl
+Date:   Tue Oct 28 22:42:48 CET 2008
+  * Implemented Abbreviated Path Expressions
+  chr: - code inside symbolic expressions is no longer tokenized
+         (no quoting required inside symbolic expressions besides '\}')
+       - the at-sign #\@ is no longer a delimiter
+         - attributes will be implemented as local variables with
+           "(let ((@value ..."
+         - local variables will be added only for those attributes that
+           can be found in the symbolic expression
+       - added compiled-query to debug output
+       - added predicate to test if a slot with a given name exists and is bound
+       - added predicate to retrieve an element with a given position in the
+         vector of slot values
+       - fixed: elements now also applies to objects when no slot-name is given
+
+patch 059560065fad413a6e434cab2531e9c28ee3ce42
+Author: c.hofmann@utwente.nl
+Date:   Mon Oct 27 22:21:15 CET 2008
+  * Major Improvements of Path-Expressions
+  chr: - Implemented a Query Compiler, Predicate Compiler, and Abbreviated
+         Predicate Compiler
+       - cleaned up code for element selection
+       - bug-fixed upper-case conversion in lexer -> now converts no
+         longer case inside of string literals
+       - added escape character #\\ 
+       - added blocks that allow the insertion of lisp symbolic expressions
+         into predicates
+       ToDo: 
+       - add error handling if symbolic expressions are used outside of
+         predicates
+       - add abbreviated syntax for slot boundp predicates
+       - implement attribute for type
+       - document query syntax!
+
+patch 3125971891b2c77b867e134380912ee0ed4c7cc9
+Author: c.hofmann@utwente.nl
+Date:   Thu Oct 23 09:29:49 CEST 2008
+  * Implementatio of Path Expressions (in Progress)
+  chr: - work in progress! Path expressions can be expanded
+         during compilation, but will not be interpreted correctly.
+       - improved speed of select queries
+       - fixed elements query for slots containing lists of objects
+       ToDo:
+       - document query expression syntax!
+       - implement query interpreter
+
+patch 59026dee17d0afc8da88993d8dd52fd1dcec25cc
+Author: c.hofmann@utwente.nl
+Date:   Tue Sep 23 22:47:40 CEST 2008
+  * Major Changes - Added Remote Interface
+  chr: - added Foil as a foreign object interface 
+       - this allows to call the Java side of jada from CL
+       - added portable threads and portable sockets library
+       - modified the system dependent part of the jada loader
+         to implement invocation of jada.JadaAnalyzer (not yet finished)
+
+patch 71095e2765c8bc29bf330829a2a9e84c9112d4d8
+Author: c.hofmann@utwente.nl
+Date:   Thu Sep 18 22:28:16 CEST 2008
+  * Improved meta-model loading
+  chr: - added more verbose loading of metamodels using class-names
+
+patch 7a733fcdff7d77f7be57c6826d042a0ba2a4a3bb
+Author: c.hofmann@utwente.nl
+Date:   Wed Sep 17 23:26:06 CEST 2008
+  * Started to implement on demand analysis
+  chr: - modified the java-loader, the list with the metamodel no longer
+         needs to be quoted
+       - added functions for class-name translation and analysis of
+         classes with Jada when the class-file is not found
+       - added methods to query the global environment for un-analyzed
+         object types
+
+patch 44717ff181d247f10ab677f22be74b13087a8bbc
+Author: c.hofmann@utwente.nl
+Date:   Tue Sep 16 11:19:51 CEST 2008
+  * Implemented Simple Path Expression Queries
+  chr: - finished the path expression query engine
+         it now takes a string as input
+       - it is still limited to symbol-names that contain no delimiters
+
+patch 7b0b3db2bff5906fccda38520e890e4353a7f87d
+Author: c.hofmann@utwente.nl
+Date:   Mon Sep 15 22:21:01 CEST 2008
+  * Implemented Simple Path Expressions
+  chr: - implemented matching of elements and simple predicates on elements
+       - not yet finished though, need the connection between user interface
+         (path-query expression) and the query expression tokenizer, 
+         parser and query compiler (tokenize-path-expression expr), 
+         (expression-interpreter expression-list) and (path-query object q-expr).
+
+patch 44ef032fe2d1b0037ee734dcf6d3da629e859450
+Author: c.hofmann@utwente.nl
+Date:   Sun Sep 14 22:34:12 CEST 2008
+  * Started Weaver Implementation
+  chr: - started weaver implementation
+       - started path-expression (AdaptiveProgramming)
+         implementation
+
+patch f5edc29c9d60e8ce33c350e15ec2b33a174d6ec8
+Author: c.hofmann@utwente.nl
+Date:   Thu Sep 11 16:13:46 CEST 2008
+  * Bugfixes
+  chr: - dictionaries are only merged if a dictionary instance has been created
+       - the last element in a list is no longer determined with last-element-p,
+         but by its position in the list
+       - this fixes a bug where two elements in a list that had the same identity
+         were recognized as the last element
+
+patch b8e676c93ccd9b22bfe32a0ca55ab60d94c00f60
+Author: c.hofmann@utwente.nl
+Date:   Thu Sep 11 09:52:10 CEST 2008
+  * Implemented Global Environments
+  chr: - implemented global environments for the Java language, 
+         where packages,types and classifier-declarations with
+         local scope can be looked up
+       - constructors for these elements are now accompanied by
+         memoizing constructors that look-up existing definitions
+         in the global-environment
+       - ToDo: modifiers as objects
+
+patch 40972b1c68f806bde3d3f4bcbb1234b33e360c32
+Author: c.hofmann@utwente.nl
+Date:   Wed Sep 10 09:59:42 CEST 2008
+  tagged Beta 1.3
+
+patch 7623b24a957233eadd7ddca692c5a6356bd1a4cb
+Author: c.hofmann@utwente.nl
+Date:   Wed Sep 10 09:59:20 CEST 2008
+  * Finished Global Dictionary Support
+  chr: - refactored Jimple conversion. The method jimple-statement
+         converts a metamodel-element to a String containing 
+         its jimple representation. The method write-jimple-statement
+         writes the jimple representation to a string-stream.
+       - added a metamodel-file loader called load-metamodel that
+         takes the global dictionary as optional argument
+       - added methods for creating and merging of dictionaries
+       - added test-scripts
+
+patch 4955f768aa5186b276912b6446958222d785dc35
+Author: c.hofmann@utwente.nl
+Date:   Sun Sep  7 22:01:18 CEST 2008
+  * Started implementation of global environment
+  chr: - added dictionary and java-local-dictionary that translates
+         dictionary indices to Strings.
+       - the dictionaries prevent repeated creation of strings with 
+         the same string value
+       - added skeleton for global environment
+       - ToDo:  
+          - refactor the dictionary translation, such that it becomes more modular 
+          - put the dictionary translation into a load function
+
+patch b134dfd2fc4a1b9a2eb4002e829285d290f6d4b8
+Author: c.hofmann@utwente.nl
+Date:   Sat Sep  6 00:06:33 CEST 2008
+  * Added dictionaries and environments to the meta-model
+
+patch da2ba52c10742efa5d56d0e8e5b656914c45b365
+Author: c.hofmann@utwente.nl
+Date:   Wed Sep  3 20:01:56 CEST 2008
+  * Added Annotation and Minimal Signature Support
+  chr: - added annotations for methods and fields
+       - modified java-signature now only the qualified name
+         is stored, file-name and unqualified name are calculated from
+         the qualified-name
+
+patch 2da47807200e547b0b3cdb3cdf62949c4f9b659f
+Author: c.hofmann@utwente.nl
+Date:   Wed Sep  3 00:24:19 CEST 2008
+  * Added Java 1.5 Annotations support for classes
+  chr: - added Java 1.5 Annotation Types (Interfaces that extend the
+         java.lang.Annotation interface)
+       - added annotations for classes, which are modifiers that have
+         the same name as an annotation type and can have associated
+         element-value pairs
+       - ToDo: annotations for methods and fields
+
+patch 7437425ad4b007535fd83b688d41fa5ad85d1579
+Author: c.hofmann@utwente.nl
+Date:   Mon Sep  1 22:34:27 CEST 2008
+  * Beta 1.2
+  chr: - considerable speed improvements
+       - replaced princ by write-char and write-sequence
+         which minimizes the amount of consing
+
+patch cccefb783269492e1951466841fdb4013c05b88a
+Author: c.hofmann@utwente.nl
+Date:   Sun Aug 31 23:00:42 CEST 2008
+  * Factored Out Jimple Conversion
+  chr: - factored out jimple conversion
+       - all jimple-statement and jimple-local-control-transfer-statement
+         methods now print into a string-stream
+
+patch bd4c836ff55793b2652f0e7477be69c09ad97c09
+Author: c.hofmann@utwente.nl
+Date:   Sat Aug 30 20:41:34 CEST 2008
+  * Beta 1.1
+  chr: - fixed type declaration errors
+       - improved performance of Jimple conversion through printing
+         to string-streams instead of string concatenation
+
+patch 98d3392c3cdab58dc8dcda8f9ffb2ca24743876c
+Author: c.hofmann@utwente.nl
+Date:   Fri Aug 29 10:59:56 CEST 2008
+  tagged Beta 1
+
+patch 1477db664bcc73346ca9cce7166089cd98336e3a
+Author: c.hofmann@utwente.nl
+Date:   Fri Aug 29 10:57:47 CEST 2008
+  * Beta 1
+  chr: - fixed wrong type declarations
+       - added tester.lisp for loading analysis results and writing
+         jimple output files
+
+patch ba41f50c420db70069da7bd7f6ff0339523713d9
+Author: c.hofmann@utwente.nl
+Date:   Fri Aug 29 00:21:45 CEST 2008
+  * Pre-Beta 1
+  chr: - reached almost beta one stage
+       - added volatile keyword to the list of method modifiers
+         (see: java.lang.Double for an example)
+       - Float values are now correctly converted to Jimple statements
+       - Corrected formatting of switch statements
+       - Corrected formatting of a closure's instructions list
+       - Corrected argument order for interface invocation instructions
+         (receiver class and local variable were mixed-up)
+
+patch 9c733ceb1abe4a1a008e0d04ec12354e7abbd920
+Author: c.hofmann@utwente.nl
+Date:   Wed Aug 27 21:33:35 CEST 2008
+  * Finalizing Jimple Conversion - Still Contains Bugs!
+  chr: - changed the implements and extends relation.
+         The slot superclasses now contains a list with 
+         lists that represent super-type chains starting with the direct
+         super-type.
+       - implemented the Jada conversion for java-classifiers
+       - added the enum statement to the list of valid field-modifiers
+       - added Jimple conversion for the implements and extends relation.
+       - all jimple invoke-statements have now a slot receiver class that
+         contains an object reference to the receiver of a method call
+       - fixed the Jimple conversion of entermonitor and exitmonitor statements
+       - fixed jimple conversion of jimple-reference-value-field: added the 
+         missing local-variable
+
+patch 7712b70ab86619bc5cd17f03d6458a16182743a7
+Author: c.hofmann@utwente.nl
+Date:   Tue Aug 26 23:19:10 CEST 2008
+  * Jimple Conversion - Methods
+  chr: - simplified Jimple conversion of jimple-closure
+       - added Jimple conversion for method-declaration
+       - added Jimple conversion for method-implementation
+       - refactored code to follow style guidelines
+         (constants -> +CONST+, (setf value) -> (setq value)
+
+patch 7e60a48de9cf4295bd78fdc7236024948f0f3504
+Author: c.hofmann@utwente.nl
+Date:   Mon Aug 25 22:51:52 CEST 2008
+  * Implemented jimple-closure to Jimple conversion
+
+patch 3c09bd27e7fafae1c0400c2dd5910e22a19b615a
+Author: c.hofmann@utwente.nl
+Date:   Sun Aug 24 22:48:19 CEST 2008
+  * Jimple Statement Conversion - All Instructions
+  chr: - completed the conversion to jimple statements
+         for the jimple-instructions
+       - fixed bug in conversion of jimple-arithmetic-instructions
+       - updated documentation of jimple-reference-value
+         
+
+patch c71ec151008a6fc6d9318d78aa8fdffb99d54c30
+Author: c.hofmann@utwente.nl
+Date:   Sat Aug 23 23:54:11 CEST 2008
+  * Conversion to Jimple Statements
+  
+  chr: - added conversion to Jimple Statements for:
+           - simple Jimple instructions (e.g. nop)
+           - object instantiation instructions (e.g. new)
+           - cast expressions
+           - conditional critical section instructions (e.g. monitorenter)
+           - assignment instructions
+  
+
+patch 8d2d0790b761b7bfbeaec38ae706f70afb34c6ee
+Author: c.hofmann@utwente.nl
+Date:   Fri Aug 22 23:28:30 CEST 2008
+  * Jimple Statement Conversion
+  chr: - modified the jada-metamodel: a jada-closure is now also characterized
+         by the branch targets it has. These are indices of instructions 
+         that are the target of a control-transfer instruction.
+       - implemented jada-statement conversion for:
+           - java-values
+           - java-types
+           - Jimple arithmetic-instructions
+           - Jimple global control-transfer instructions
+       - added slot-readers where necessary
+
+patch e346fcdd807bdbe8e761a431ecfecd1f7f55eb22
+Author: c.hofmann@utwente.nl
+Date:   Tue Aug 12 22:55:24 CEST 2008
+  tagged Alpha 1
+
+patch 92c60fbff9532716f05da75d3923add1e5939756
+Author: c.hofmann@utwente.nl
+Date:   Tue Aug 12 22:49:28 CEST 2008
+  * Major Big Fixes
+  chr: - added helper functions for debug and verbose output
+       - added interface for unqualified-name and qualified-name
+         to jada-signature subclasses
+       - fixed constructor arguments of several classes
+       - added Java boolean and null types
+       - fixed java-array-type constructor
+       - added method signature to convert the java-type-signature
+         string of a simple-type into an instance of jada-signature
+       - added error handling when a primitive type is not recognized
+       - fixed critical section instructions
+           - now takes as arguments a variable that contains
+             a reference to the object where the lock is located
+
+patch 6032fd6d9f281091dfe650ec4831dafd9739b1ab
+Author: c.hofmann@utwente.nl
+Date:   Tue Aug 12 22:48:46 CEST 2008
+  * Implemented all Jimple Instructions
+  chr: - implemented all jimple instructions (arithmetic, control-transfer,
+         object-related, simple, assignment, etc.)
+       - added system definitions for jimple
+       - THIS VERSION IS NOT FREE FROM BUGS!
+       - TODO: run test input programs from jada
+
+patch 9e3399c7274eb50dc2cb7c5ec1797a13e319a4a9
+Author: c.hofmann@utwente.nl
+Date:   Fri Aug  8 23:19:00 CEST 2008
+  * Completed Java Types and Values
+  chr: - added meta-model for jimple values
+       - started to implement jimple instructions
+       - moved accessors and initargs from the abstract 
+         classes of the jada-metamodel to the languageto 
+         specific sub-classes that are instantiated
+
+patch b116db086f0c078e73943d7ffd879ed4bf466d4f
+Author: c.hofmann@utwente.nl
+Date:   Thu Aug  7 22:57:41 CEST 2008
+  * Worked on Java Metamodel
+  chr: - added system definitions and loader that uses
+         mk-defsystem
+       - added example (SplitSync)
+       - implemented all Java specific types
+       - implemented most Java specific metamodel elements
+       - TODO: Java types
+
+patch fe45ace4d5e9ec9bc5f28697764a7125dbc92e62
+Author: c.hofmann@utwente.nl
+Date:   Wed Aug  6 14:51:35 CEST 2008
+  * Started to Implement the Java metamodel
+
+patch ea57e17811aa50552c5e8aa65a6a51053429a8c4
+Author: c.hofmann@utwente.nl
+Date:   Tue Aug  5 15:37:18 CEST 2008
+  * Started to implement constructors for Java Meta-Model
+
+patch ba9aa425ca978032aa6ede1a17738a16100ebfbf
+Author: c.hofmann@utwente.nl
+Date:   Mon Aug  4 16:47:37 CEST 2008
+  * Added Java Language Specific Metamodel
+  chr: - added java-specific metamodel
+       - modified language independent metamodel
+         - added signature class
+         - commented out static-analysis specific slots of variable declaration
+
+patch aa3dd4226750e83b55590313baf7cc1eea22c1b1
+Author: c.hofmann@utwente.nl
+Date:   Mon Aug  4 13:39:05 CEST 2008
+  * Initial Import
+  - initial version of CL-JADA
+  - implements the language independent meta-model

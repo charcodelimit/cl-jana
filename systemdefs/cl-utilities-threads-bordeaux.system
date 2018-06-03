@@ -1,0 +1,88 @@
+;;; -*- Mode: Lisp; Syntax: COMMON-LISP; Package: cl-user; Base: 10 -*- 
+;;; -*- coding: utf-8 -*-
+;;;****************************************************************************
+;;; FILE:        cl-utilities-threads-bordeaux.system
+;;; LANGUAGE:    Common-Lisp
+;;; 
+;;; DESCRIPTION
+;;; 
+;;; 
+;;; 
+;;; Author: Christian Hofmann
+;;; 
+;;; Created: Mon Aug 17 15:08:29 2009 (z)
+;;; 
+;;; Last-Updated: Mon Aug 17 15:19:45 2009 (z)
+;;;           By: Christian Hofmann
+;;; 
+;;; Copyright (C) 2009, Christian Hofmann. All rights reserved.
+;;; 
+;;; Permission is hereby granted, free of charge, to any person
+;;; obtaining a copy of this software and associated documentation
+;;; files (the "Software"), to deal in the Software without
+;;; restriction, including without limitation the rights to use,
+;;; copy, modify, merge, publish, distribute, sublicense, and/or
+;;; sell copies of the Software, and to permit persons to whom the
+;;; Software is furnished to do so, subject to the following
+;;; conditions:
+;;; 
+;;; The above copyright notice and this permission notice shall be
+;;; included in all copies or substantial portions of the Software.
+;;; 
+;;; THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+;;; EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+;;; OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;;; NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+;;; HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+;;; WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+;;; FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+;;; OTHER DEALINGS IN THE SOFTWARE.
+;;; 
+;;;****************************************************************************
+
+(in-package :cl-user)
+
+(defpackage bordeaux-threads-system
+  (:use #:cl))
+
+(in-package :bordeaux-threads-system)
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  #+allegro (require :process)
+  #+corman  (require :threads))
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  #+(or (and allegro multiprocessing)
+        armedbear
+        (and cmu mp)
+        scl
+        corman
+        (and digitool ccl-5.1)
+        (and ecl threads)
+        lispworks
+        (and openmcl openmcl-native-threads)
+        (and sbcl sb-thread)
+        (and clisp mt))
+  (pushnew :thread-support *features*))
+
+(mk:defsystem #:cl-utilities-threads-bordeaux
+    :source-pathname "cl-utilities/threads/bordeaux/src"
+    :binary-pathname "cl-utilities/threads/bordeaux/bin"
+    :components ((:file "bordeaux-threads")
+                 (:file #+(and thread-support allegro)   "allegro"
+                                #+(and thread-support armedbear) "armedbear"
+                                #+(and thread-support cmu)       "cmu"
+                                #+(and thread-support scl)       "scl"
+                                #+(and thread-support corman)    "corman"
+                                #+(and thread-support digitool)  "mcl"
+                                #+(and thread-support ecl)       "ecl"
+                                #+(and thread-support lispworks) "lispworks"
+                                #+(and thread-support openmcl)   "openmcl"
+                                #+(and thread-support sbcl)      "sbcl"
+                                #+(and thread-support clisp)     "clisp"
+                                #-thread-support                 "unsupported")
+                         (:file "default-implementations")
+                         #+(and thread-support
+                                (or armedbear ecl lispworks digitool))
+                         (:file "condition-variables"))
+    :depends-on ())

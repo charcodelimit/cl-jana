@@ -1,0 +1,11 @@
+;;; -*- mode: lisp -*-
+
+(defpackage #:cl-io-streams-gray-trivial-system
+    (:use :cl))
+(in-package cl-io-streams-gray-trivial-system)
+
+(mk:defsystem #:cl-io-streams-gray-trivial
+  :source-pathname "cl-io/streams/trivial-gray-streams/src"
+  :binary-pathname "cl-io/streams/trivial-gray-streams/bin"
+  :source-extension "lisp"
+  :components ((:file "package") (:file "mixin")))

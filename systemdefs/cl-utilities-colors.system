@@ -1,0 +1,34 @@
+;;; -*- Mode: Lisp; Syntax: COMMON-LISP; Package: cl-user; Base: 10 -*- 
+;;; -*- coding: utf-8 -*-
+;;;****************************************************************************
+;;; FILE:        cl-utilities-colors.system
+;;; LANGUAGE:    Common-Lisp
+;;; 
+;;; DESCRIPTION
+;;;  Simple color library for Common Lisp
+;;;  Version 0.1
+;;;  Original Author Tamas K Papp
+;;;  License LLGPL
+;;; 
+;;; Author: Christian Hofmann
+;;; 
+;;; Created: Fri Sep 18 11:25:13 2009 (z)
+;;; 
+;;; Last-Updated: Fri Sep 18 12:17:17 2009 (z)
+;;;           By: Christian Hofmann
+;;; 
+;;; Copyright (C) 2009, Christian Hofmann. All rights reserved.
+;;; 
+;;;****************************************************************************
+
+(in-package :cl-user)
+
+
+(mk:defsystem #:cl-utilities-colors
+    :source-pathname "cl-utilities/colors/src"
+    :binary-pathname "cl-utilities/colors/bin"
+    :components ((:file "package")
+                 (:file "util" :depends-on ("package"))
+                 (:file "colors" :depends-on ("util"))
+	         (:file "colornames" :depends-on ("colors")))
+    :depends-on ())
